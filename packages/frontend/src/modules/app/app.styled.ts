@@ -3,6 +3,9 @@ import { COLORS } from '../theme';
 
 // eslint-disable-next-line import/prefer-default-export
 export const GlobalStyles = createGlobalStyle`
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
   *,
   *::before,
   *::after {
@@ -32,7 +35,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    font-family: Poppins, sans-serif;
+    font-family: Roboto, sans-serif;
     min-height: 100vh;
     scroll-behavior: smooth;
     text-rendering: optimizeSpeed;
@@ -43,6 +46,7 @@ export const GlobalStyles = createGlobalStyle`
   ul[class],
   ol[class] {
     list-style: none;
+    
   }
 
   a:not([class]) {

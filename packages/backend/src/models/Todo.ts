@@ -32,11 +32,11 @@ const todoSchema: Schema<ITodo> = new Schema(
       type: String,
       required: true
     },
-    public: {
+    isPublic: {
       type: Boolean,
       default: false
     },
-    completed: {
+    isCompleted: {
       type: Boolean,
       default: false
     }
@@ -49,10 +49,13 @@ const todoSchema: Schema<ITodo> = new Schema(
 
 export const joiShema = Joi.object({
   title: Joi.string().min(10).max(30).required(),
-  description: Joi.string().min(10).max(30).required(),
-  year: Joi.string().min(3).max(4).required(),
-  public: Joi.boolean(),
-  completed: Joi.boolean()
+  description: Joi.string().min(10).max(100).required(),
+  year: Joi.string()
+    .length(4)
+    .pattern(/2[0-9][0-9][0-9]/)
+    .required(),
+  isPublic: Joi.boolean(),
+  isCompleted: Joi.boolean()
 });
 
 const Todo: Model<ITodo> = model('Todo', todoSchema);
