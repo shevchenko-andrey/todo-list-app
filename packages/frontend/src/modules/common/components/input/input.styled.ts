@@ -16,6 +16,15 @@ export const FormField = styled(Field)`
   margin-top: ${SPACES.m};
   width: 17rem;
 `;
+export const TextArea = styled.textarea`
+  resize: none;
+  margin-top: ${SPACES.m};
+  width: 17rem;
+  height: 7rem;
+  border: 2px solid ${COLORS.black};
+  padding: ${SPACES.s};
+`;
+
 export const Error = styled.span`
   padding-top: ${SPACES.s};
   width: 17rem;

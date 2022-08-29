@@ -8,15 +8,6 @@ export const TodoForm = styled(Form)`
   align-items: flex-start;
 `;
 
-export const TextArea = styled.textarea`
-  resize: none;
-  margin-top: ${SPACES.m};
-  width: 17rem;
-  height: 7rem;
-  border: 2px solid ${COLORS.black};
-  padding: ${SPACES.s};
-`;
-
 export const Button = styled.button`
   margin-top: ${SPACES.m};
   text-align: center;

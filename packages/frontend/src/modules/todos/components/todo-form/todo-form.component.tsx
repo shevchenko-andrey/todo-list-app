@@ -41,7 +41,7 @@ export const TodoFormComponent = ({ initialValues = initialState, onSubmit }: IT
     <Styled.TodoForm>
       <InputComponent name="title" title="Title" />
 
-      <InputComponent name="description" title="Description" />
+      <InputComponent name="description" title="Description" type="textarea" />
 
       <InputComponent name="year" title="Year" />
 
