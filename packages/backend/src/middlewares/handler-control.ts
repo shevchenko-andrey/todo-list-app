@@ -8,13 +8,15 @@ const handlerControl =
   async (req: Request<ITodoParams>, res: Response, next: NextFunction) => {
     try {
       const data = await ctrl(req, res, next);
+
       if (!data) {
-        throw new Error();
+        throw new Error('Internal Server Error');
       }
-      res.status(200).json({ data });
+      res.status(200).json(data);
     } catch (e) {
-      const error = { message: 'Internal Server Error' };
-      return res.status(500).json(error);
+      const error = e as Error;
+      return res.status(500).json(error.message);
     }
   };
+
 export default handlerControl;
