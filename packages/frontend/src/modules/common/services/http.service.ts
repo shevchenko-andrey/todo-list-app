@@ -42,16 +42,6 @@ class HttpService<D> {
     const { data } = await this.fetchingService.delete<D, AxiosResponse<D>>(this.getFullApiUrl(id));
     return data;
   }
-
-  privateHeaderConfig(data: any): any {
-    return {
-      method: 'PUT',
-      header: {
-        'Content-Type': 'application/json'
-      },
-      data
-    };
-  }
 }
 
 export default HttpService;

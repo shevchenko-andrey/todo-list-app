@@ -1,4 +1,4 @@
-import { Field, Form } from 'formik';
+import { Form } from 'formik';
 import styled from 'styled-components';
 import { COLORS, SPACES } from '../../../theme';
 
@@ -7,13 +7,7 @@ export const TodoForm = styled(Form)`
   flex-direction: column;
   align-items: flex-start;
 `;
-export const TodoField = styled(Field)`
-  border: 2px solid ${COLORS.black};
-  padding: ${SPACES.s};
-  border-radius: 4px;
-  margin-top: ${SPACES.m};
-  width: 17rem;
-`;
+
 export const TextArea = styled.textarea`
   resize: none;
   margin-top: ${SPACES.m};
@@ -22,25 +16,7 @@ export const TextArea = styled.textarea`
   border: 2px solid ${COLORS.black};
   padding: ${SPACES.s};
 `;
-export const Label = styled.label`
-  margin-top: ${SPACES.m};
-`;
-export const FildWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-export const Checkbox = styled(Field)``;
-export const CheckboxWrapper = styled.label`
-  display: flex;
-  margin-top: ${SPACES.s};
-  width: 100%;
-  justify-content: space-between;
-`;
-export const Error = styled.span`
-  padding-top: ${SPACES.s};
-  width: 17rem;
-  color: ${COLORS.red};
-`;
+
 export const Button = styled.button`
   margin-top: ${SPACES.m};
   text-align: center;

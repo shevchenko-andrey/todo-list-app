@@ -1,9 +1,11 @@
 import React from 'react';
-import { Field, Formik, ErrorMessage } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import * as Styled from './todo-form.styled';
 import { ITodo } from '../../types/todo.types';
+import { InputComponent } from '../../../common/components/input';
+import { CheckboxComponent } from '../../../common/components/checkbox';
 
 const initialState: ITodo = {
   title: '',
@@ -37,33 +39,16 @@ export const TodoFormComponent = ({ initialValues = initialState, onSubmit }: IT
     }}
   >
     <Styled.TodoForm>
-      <Styled.FildWrapper>
-        <Styled.Label htmlFor="title">Title</Styled.Label>
-        <Styled.TodoField id="title" name="title" />
-        <ErrorMessage component={Styled.Error} name="title" />
-      </Styled.FildWrapper>
+      <InputComponent name="title" title="Title" />
 
-      <Styled.FildWrapper>
-        <Styled.Label htmlFor="description">Description</Styled.Label>
-        <Field as={Styled.TextArea} id="description" name="description" type="textarea" />
-        <ErrorMessage component={Styled.Error} name="description" />
-      </Styled.FildWrapper>
+      <InputComponent name="description" title="Description" />
 
-      <Styled.FildWrapper>
-        <Styled.Label htmlFor="year">Year</Styled.Label>
-        <Styled.TodoField name="year" id="year" type="text" />
-        <ErrorMessage component={Styled.Error} name="year" />
-      </Styled.FildWrapper>
+      <InputComponent name="year" title="Year" />
 
-      <Styled.CheckboxWrapper>
-        <Styled.Label htmlFor="isPublic">Public</Styled.Label>
-        <Styled.Checkbox name="isPublic" id="isPublic" type="checkbox" />
-      </Styled.CheckboxWrapper>
+      <CheckboxComponent name="isPublic" title="Public" />
 
-      <Styled.CheckboxWrapper>
-        <Styled.Label htmlFor="isCompleted">Completed</Styled.Label>
-        <Styled.Checkbox name="isCompleted" id="isCompleted" type="checkbox" />
-      </Styled.CheckboxWrapper>
+      <CheckboxComponent name="isCompleted" title="Completed" />
+
       <Styled.Button type="submit">Submit</Styled.Button>
     </Styled.TodoForm>
   </Formik>
