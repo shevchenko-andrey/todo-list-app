@@ -6,23 +6,24 @@ import TodoService from '../services/todo.service';
 export class TodoController {
   constructor(private todoService: TodoService) {}
 
-  createTodo = (req: Request<{}, {}, ITodo>) => this.todoService.addTodo(req.body);
+  createTodo = (req: Request<{}, {}, ITodo>) =>
+    this.todoService.addTodo(req.body, req.user as string);
 
-  getAllTodo = () => this.todoService.findAll();
+  getAllTodo = (req: Request) => this.todoService.findAll(req.user as string);
 
   getTodoById = (req: Request<ITodoParams>) => {
     const { id = '' } = req.params;
-    return this.todoService.findById(id);
+    return this.todoService.findById(id, req.user as string);
   };
 
   updateTodo = (req: Request<ITodoParams, {}, ITodo>) => {
     const { id = '' } = req.params;
-    return this.todoService.updateById(id, req.body);
+    return this.todoService.updateById(id, req.body, req.user as string);
   };
 
   deleteTodo = (req: Request<ITodoParams>) => {
     const { id = '' } = req.params;
-    return this.todoService.removeById(id);
+    return this.todoService.removeById(id, req.user as string);
   };
 }
 

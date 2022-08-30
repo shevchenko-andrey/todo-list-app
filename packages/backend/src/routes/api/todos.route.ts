@@ -11,6 +11,7 @@ import { auth } from '../../middlewares/auth.middleware';
 const todosRouter: Router = Router();
 
 passport.use('jwt', jwtStrategy);
+
 todosRouter.post('', auth, validate(joiShema), handlerControl(todoController.createTodo));
 
 todosRouter.get('', auth, handlerControl(todoController.getAllTodo));

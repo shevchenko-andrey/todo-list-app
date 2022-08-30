@@ -1,5 +1,5 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import User, { IUser } from '../models/User';
+import User from '../models/User';
 
 const { JWT_SECRET } = process.env;
 export const jwtStrategy = new Strategy(
@@ -7,11 +7,13 @@ export const jwtStrategy = new Strategy(
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: JWT_SECRET
   },
-  async (payload: IUser, done) => {
+  async (payload: { id: string }, done) => {
     try {
-      const user = await User.findById(payload._id);
+      const user = await User.findById(payload.id);
+
       if (!user) {
-        return done(null, false);
+        done(null, false);
+        return;
       }
       done(null, user);
     } catch (error) {
