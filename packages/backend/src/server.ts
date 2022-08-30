@@ -1,7 +1,9 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import 'dotenv/config';
+import logger from 'morgan';
 import cors from 'cors';
+import passport from 'passport';
 import { graphqlHTTP } from 'express-graphql';
 import { buildSchema } from 'graphql';
 import axios from 'axios';
@@ -9,15 +11,19 @@ import AppRouter from './routes';
 import connectDB from './config/database';
 
 const app = express();
+const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
+app.use(logger(formatsLogger));
 app.use(cors());
 const router = new AppRouter(app);
 // Connect to MongoDB
 connectDB();
 
 // Express configuration
+
 app.set('port', process.env.PORT || 4200);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(passport.initialize());
 
 router.init();
 
