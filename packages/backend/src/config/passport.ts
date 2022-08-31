@@ -1,3 +1,4 @@
+import { JwtPayload } from 'jsonwebtoken';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import User from '../models/User';
 
@@ -7,7 +8,7 @@ export const jwtStrategy = new Strategy(
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: JWT_SECRET
   },
-  async (payload: { id: string }, done) => {
+  async (payload: JwtPayload, done) => {
     try {
       const user = await User.findById(payload.id);
 

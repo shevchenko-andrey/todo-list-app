@@ -6,25 +6,28 @@ import TodoService from '../services/todo.service';
 export class TodoController {
   constructor(private todoService: TodoService) {}
 
-  createTodo = (req: Request<{}, {}, ITodo>) =>
-    this.todoService.addTodo(req.body, req.user as string);
+  async createTodo(req: Request<{}, ITodo, ITodo>) {
+    return this.todoService.addTodo(req.body, req.userId);
+  }
 
-  getAllTodo = (req: Request) => this.todoService.findAll(req.user as string);
+  async getAllTodo(req: Request<{}, ITodo[]>) {
+    return this.todoService.findAll(req.userId);
+  }
 
-  getTodoById = (req: Request<ITodoParams>) => {
+  async getTodoById(req: Request<ITodoParams, ITodo>) {
     const { id = '' } = req.params;
-    return this.todoService.findById(id, req.user as string);
-  };
+    return this.todoService.findById(id, req.userId);
+  }
 
-  updateTodo = (req: Request<ITodoParams, {}, ITodo>) => {
+  async updateTodo(req: Request<ITodoParams, ITodo>) {
     const { id = '' } = req.params;
-    return this.todoService.updateById(id, req.body, req.user as string);
-  };
+    return this.todoService.updateById(id, req.body, req.userId);
+  }
 
-  deleteTodo = (req: Request<ITodoParams>) => {
+  async deleteTodo(req: Request<ITodoParams, ITodo>) {
     const { id = '' } = req.params;
-    return this.todoService.removeById(id, req.user as string);
-  };
+    return this.todoService.removeById(id, req.userId);
+  }
 }
 
 const todoController = new TodoController(new TodoService());

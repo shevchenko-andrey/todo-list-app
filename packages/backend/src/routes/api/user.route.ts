@@ -9,8 +9,16 @@ const router: Router = Router();
 // @route   POST api/user
 // @desc    Register user given their email and password, returns the token upon successful registration
 // @access  Public
-router.post('/register', validate(joiShema), handlerControl(userController.register));
+router.post(
+  '/register',
+  validate(joiShema),
+  handlerControl(userController.register.bind(userController))
+);
 
-router.post('/login', validate(joiShema), handlerControl(userController.login));
+router.post(
+  '/login',
+  validate(joiShema),
+  handlerControl(userController.login.bind(userController))
+);
 
 export default router;

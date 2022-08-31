@@ -10,6 +10,7 @@ import { RegExEmail } from '../utils/constants';
  * @param password:string
  */
 export interface IUser extends Document {
+  _id: string;
   email: string;
   password: string;
 }

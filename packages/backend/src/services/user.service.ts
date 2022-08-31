@@ -28,6 +28,7 @@ export default class UserService {
 
   async login(candUser: IUser) {
     const { email, password } = candUser;
+
     const user = await User.findOne({ email });
 
     if (!user) {

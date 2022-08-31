@@ -12,20 +12,35 @@ const todosRouter: Router = Router();
 
 passport.use('jwt', jwtStrategy);
 
-todosRouter.post('', auth, validate(joiShema), handlerControl(todoController.createTodo));
+todosRouter.post(
+  '',
+  auth,
+  validate(joiShema),
+  handlerControl(todoController.createTodo.bind(todoController))
+);
 
-todosRouter.get('', auth, handlerControl(todoController.getAllTodo));
+todosRouter.get('', auth, handlerControl(todoController.getAllTodo.bind(todoController)));
 
-todosRouter.get('/:id', auth, isExist(Todo), handlerControl(todoController.getTodoById));
+todosRouter.get(
+  '/:id',
+  auth,
+  isExist(Todo),
+  handlerControl(todoController.getTodoById.bind(todoController))
+);
 
 todosRouter.put(
   '/:id',
   auth,
   isExist(Todo),
   validate(joiShema),
-  handlerControl(todoController.updateTodo)
+  handlerControl(todoController.updateTodo.bind(todoController))
 );
 
-todosRouter.delete('/:id', auth, isExist(Todo), handlerControl(todoController.deleteTodo));
+todosRouter.delete(
+  '/:id',
+  auth,
+  isExist(Todo),
+  handlerControl(todoController.deleteTodo.bind(todoController))
+);
 
 export default todosRouter;

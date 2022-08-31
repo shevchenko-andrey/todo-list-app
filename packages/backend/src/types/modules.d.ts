@@ -6,6 +6,12 @@ declare global {
       JWT_EXPIRATION: string;
     }
   }
+
+  namespace Express {
+    interface Request {
+      userId?: string;
+    }
+  }
 }
 
 // If this file has no import/export statements (i.e. is a script)
