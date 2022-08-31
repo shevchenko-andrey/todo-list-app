@@ -1,5 +1,6 @@
 import { Document, Model, model, Schema } from 'mongoose';
 import Joi from 'joi';
+import { RegExYear } from '../utils/constants';
 // TODO: Use it as an example
 /**
  * Interface to model the User Schema for TypeScript.
@@ -11,6 +12,7 @@ import Joi from 'joi';
  */
 export interface ITodo extends Document {
   title: string;
+  userId: string;
   description: string;
   year: string;
   public: boolean;
@@ -21,8 +23,7 @@ const todoSchema: Schema<ITodo> = new Schema(
   {
     title: {
       type: String,
-      required: true,
-      unique: true
+      required: true
     },
     description: {
       type: String,
@@ -39,6 +40,10 @@ const todoSchema: Schema<ITodo> = new Schema(
     isCompleted: {
       type: Boolean,
       default: false
+    },
+    userId: {
+      type: String,
+      required: true
     }
   },
   {
@@ -50,10 +55,7 @@ const todoSchema: Schema<ITodo> = new Schema(
 export const joiShema = Joi.object({
   title: Joi.string().min(10).max(30).required(),
   description: Joi.string().min(10).max(100).required(),
-  year: Joi.string()
-    .length(4)
-    .pattern(/2[0-9][0-9][0-9]/)
-    .required(),
+  year: Joi.string().length(4).pattern(RegExYear).required(),
   isPublic: Joi.boolean(),
   isCompleted: Joi.boolean()
 });
