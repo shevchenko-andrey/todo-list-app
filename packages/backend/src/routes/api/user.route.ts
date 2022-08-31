@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { joiShema } from '../../models/User';
+import { joiRegisterShema, joiLoginShema } from '../../models/User';
 import validate from '../../middlewares/validate.middleware';
 import handlerControl from '../../middlewares/handler-control.middleware';
 import userController from '../../controllers/user.controler';
@@ -11,13 +11,13 @@ const router: Router = Router();
 // @access  Public
 router.post(
   '/register',
-  validate(joiShema),
+  validate(joiRegisterShema),
   handlerControl(userController.register.bind(userController))
 );
 
 router.post(
   '/login',
-  validate(joiShema),
+  validate(joiLoginShema),
   handlerControl(userController.login.bind(userController))
 );
 

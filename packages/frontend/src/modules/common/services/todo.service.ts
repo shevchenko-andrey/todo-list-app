@@ -13,14 +13,24 @@ const httpService = new HttpService<ITodoResponce>(
 class TodoService<D> {
   constructor(private http: HttpService<D>) {}
 
-  getTodos = async () => this.http.get();
+  async getTodos() {
+    return this.http.get();
+  }
 
-  getTodoByID = async (id: string) => this.http.getByID(id);
+  async getTodoByID(id: string) {
+    return this.http.getById(id);
+  }
 
-  createTodo = async (body: ITodo) => this.http.post(body);
+  async createTodo(body: ITodo) {
+    return this.http.post<ITodo, ITodo>(body);
+  }
 
-  updateTodo = async (id: string, body: ITodo) => this.http.put(id, body);
+  async updateTodo(id: string, body: ITodo) {
+    return this.http.put(id, body);
+  }
 
-  deleteTodo = async (id: string) => this.http.delete(id);
+  async deleteTodo(id: string) {
+    return this.http.delete(id);
+  }
 }
 export default new TodoService(httpService);

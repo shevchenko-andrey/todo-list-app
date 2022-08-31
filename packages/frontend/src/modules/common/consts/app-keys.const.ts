@@ -9,14 +9,16 @@ export const STORAGE_KEYS = {
 // React-query keys
 export const QUERY_KEYS = {
   TODOS: 'todos',
-  TODO: 'todo'
+  TODO: 'todo',
+  LOGIN: 'login',
+  REGISTER: 'register'
 };
 
 // Backend Routes
 export const BACKEND_KEYS = {
   API_VERSION: 'api',
   BASE_URL: 'http://localhost:4200',
-  USERS: 'users',
+  USER: 'user',
   TODOS: 'todos'
 };
 

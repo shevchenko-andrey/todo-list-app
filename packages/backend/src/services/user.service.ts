@@ -11,7 +11,7 @@ export default class UserService {
   }
 
   async register(newUser: IUser) {
-    const { email, password } = newUser;
+    const { email, password, username } = newUser;
 
     const candidate = await User.findOne({ email });
 
@@ -21,7 +21,8 @@ export default class UserService {
 
     const user = await User.create({
       email,
-      password
+      password,
+      username
     });
     return { _id: user._id, email: user.email };
   }
@@ -47,6 +48,6 @@ export default class UserService {
 
     const bearerToken = `Bearer ${accessToken}`;
 
-    return bearerToken;
+    return { token: bearerToken };
   }
 }
