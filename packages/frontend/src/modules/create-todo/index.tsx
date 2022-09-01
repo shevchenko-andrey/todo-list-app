@@ -9,11 +9,14 @@ import { TodoFormComponent } from '../todos/components/todo-form/todo-form.compo
 import { ITodo } from '../todos/types/todo.types';
 
 import { GoBackComponent } from '../common/components/go-back';
-// import { ITodo } from './types/todo.types';
+import localStorageService from '../common/services/local-storage.service';
 
 const CreateTodoPageContainer = () => {
   const queryClient = useQueryClient();
-  const { isSuccess, mutate } = useMutation(todoService.createTodo);
+  const { isSuccess, isError, mutate } = useMutation<ITodo, {}, ITodo>(
+    (values) => todoService.createTodo(values),
+    { onError: () => localStorageService.setToken('') }
+  );
 
   const onSubmit = (values: ITodo) => {
     mutate(values, {
@@ -30,6 +33,7 @@ const CreateTodoPageContainer = () => {
         </NavLinkComponent>
         <TodoFormComponent onSubmit={onSubmit} />
         {isSuccess && <Redirect to={ROUTER_KEYS.TODOS} />}
+        {isError && <Redirect to={ROUTER_KEYS.LOGIN} />}
       </ContainerComponent>
     </main>
   );
