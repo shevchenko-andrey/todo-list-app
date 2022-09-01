@@ -2,6 +2,7 @@ import axios from 'axios';
 import { ITodo, ITodoResponce } from '../../todos/types/todo.types';
 import HttpService from './http.service';
 import { BACKEND_KEYS } from '../consts/app-keys.const';
+import { IFilter } from '../../todos/types/filter.types';
 
 const httpService = new HttpService<ITodoResponce>(
   axios,
@@ -13,8 +14,13 @@ const httpService = new HttpService<ITodoResponce>(
 class TodoService<D> {
   constructor(private http: HttpService<D>) {}
 
-  async getTodos() {
-    return this.http.get();
+  private createQueryParams({ query, isComplited, isPublic }: IFilter) {
+    return `filter/?q=${query}&public=${isPublic}&complited=${isComplited}`;
+  }
+
+  async getTodos(params: IFilter, withFilter = false) {
+    const queryParams = withFilter ? this.createQueryParams(params) : '';
+    return this.http.get(queryParams);
   }
 
   async getTodoByID(id: string) {

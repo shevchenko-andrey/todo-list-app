@@ -1,9 +1,20 @@
 import { NotFound } from 'http-errors';
+import { ITodoQuery } from '../types/todo-params.type';
 import Todo, { ITodo } from '../models/Todo';
+import FilterServise from './filter.service';
+
+const filterServise = new FilterServise();
 
 export default class TodoService {
   async findAll(userId = '') {
-    return Todo.find({ $or: [{ userId }, { isPublic: true }] });
+    return Todo.find({
+      $or: [{ userId }, { isPublic: true }]
+    });
+  }
+
+  async findWithFilter(query: ITodoQuery, userId = '') {
+    const queryParams = filterServise.getFilterParams(query);
+    return Todo.find({ $and: [queryParams, { $or: [{ userId }, { isPublic: true }] }] });
   }
 
   async findById(todoId: string, userId = '') {

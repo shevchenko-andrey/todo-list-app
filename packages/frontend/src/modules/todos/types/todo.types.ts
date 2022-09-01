@@ -5,6 +5,7 @@ export interface ITodo {
   isCompleted: boolean;
   description: string;
 }
+
 export interface ITodoResponce extends ITodo {
   _id: string;
 }

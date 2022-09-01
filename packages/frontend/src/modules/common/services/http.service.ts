@@ -21,9 +21,9 @@ class HttpService<D> {
     };
   }
 
-  public async get() {
+  public async get(params = '') {
     const { data } = await this.fetchingService.get<null, AxiosResponse<D>>(
-      this.getFullApiUrl(),
+      this.getFullApiUrl(params),
       this.getHeaders()
     );
     return data;

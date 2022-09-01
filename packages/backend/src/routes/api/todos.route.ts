@@ -22,6 +22,12 @@ todosRouter.post(
 todosRouter.get('', auth, handlerControl(todoController.getAllTodo.bind(todoController)));
 
 todosRouter.get(
+  '/filter',
+  auth,
+  handlerControl(todoController.getFilteredTodo.bind(todoController))
+);
+
+todosRouter.get(
   '/:id',
   auth,
   isExist(Todo),

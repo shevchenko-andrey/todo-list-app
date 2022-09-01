@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { ITodoParams } from '../types/todo-params.type';
+import { ITodoParams, ITodoQuery } from '../types/todo-params.type';
 import { ITodo } from '../models/Todo';
 import TodoService from '../services/todo.service';
 
@@ -10,8 +10,12 @@ export class TodoController {
     return this.todoService.addTodo(req.body, req.userId);
   }
 
-  async getAllTodo(req: Request<{}, ITodo[]>) {
+  async getAllTodo(req: Request<{}, ITodo[], {}>) {
     return this.todoService.findAll(req.userId);
+  }
+
+  async getFilteredTodo(req: Request<{}, ITodo[], {}, ITodoQuery>) {
+    return this.todoService.findWithFilter(req.query, req.userId);
   }
 
   async getTodoById(req: Request<ITodoParams, ITodo>) {
