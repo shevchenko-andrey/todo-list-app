@@ -11,6 +11,6 @@ export const booleansParser = (...booleans: IBooleanString[]) =>
         return false;
 
       default:
-        return null;
+        return undefined;
     }
   });

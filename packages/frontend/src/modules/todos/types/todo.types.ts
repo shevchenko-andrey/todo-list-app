@@ -9,3 +9,8 @@ export interface ITodo {
 export interface ITodoResponce extends ITodo {
   _id: string;
 }
+
+export interface ITodoPagination {
+  data: ITodoResponce[];
+  totalPage: number;
+}

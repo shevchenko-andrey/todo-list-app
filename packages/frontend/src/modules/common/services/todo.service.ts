@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ITodo, ITodoResponce } from '../../todos/types/todo.types';
 import HttpService from './http.service';
-import { BACKEND_KEYS } from '../consts/app-keys.const';
+import { BACKEND_KEYS, LIMIT } from '../consts/app-keys.const';
 import { IFilter } from '../../todos/types/filter.types';
 
 const httpService = new HttpService<ITodoResponce>(
@@ -14,16 +14,21 @@ const httpService = new HttpService<ITodoResponce>(
 class TodoService<D> {
   constructor(private http: HttpService<D>) {}
 
-  private createQueryParams({ query, isComplited, isPublic, page, limit }: IFilter) {
-    const baseQueryParams = `filter/?&page=${page}&limit=${limit}`;
-    const filterOptions = `q=${query}&public=${isPublic}&complited=${isComplited}`;
-    return baseQueryParams + filterOptions;
+  private createFilterOption({ query, isComplited, isPublic, page, limit }: IFilter) {
+    const filterOptions = `/filter?q=${query}&public=${isPublic}&complited=${isComplited}`;
+    return filterOptions + this.addPagination(page, limit);
   }
 
-  async getTodos(params: IFilter, withFilter = false) {
-    const queryParams = withFilter ? this.createQueryParams(params) : '';
+  private addPagination(page = 1, limit = LIMIT) {
+    return `?&page=${page}&limit=${limit}`;
+  }
 
-    return this.http.get(queryParams);
+  async getTodos<R = D>(params: IFilter, withFilter = false) {
+    const queryParams = withFilter
+      ? this.createFilterOption(params)
+      : this.addPagination(params.page, params.limit);
+
+    return this.http.get<R>(queryParams);
   }
 
   async getTodoByID(id: string) {

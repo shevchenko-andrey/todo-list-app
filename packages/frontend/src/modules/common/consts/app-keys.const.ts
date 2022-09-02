@@ -22,6 +22,8 @@ export const BACKEND_KEYS = {
   TODOS: 'todos'
 };
 
+export const LIMIT = 2;
+
 export const ROUTER_KEYS = {
   TODOS: '/todos',
   CREATE_TODO: '/todo/create',

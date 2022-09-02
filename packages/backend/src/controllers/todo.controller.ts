@@ -10,8 +10,8 @@ export class TodoController {
     return this.todoService.addTodo(req.body, req.userId);
   }
 
-  async getAllTodo(req: Request<{}, ITodo[], {}>) {
-    return this.todoService.findAll(req.userId);
+  async getAllTodo(req: Request<{}, ITodo[], {}, ITodoQuery>) {
+    return this.todoService.findAll(req.query, req.userId);
   }
 
   async getFilteredTodo(req: Request<{}, ITodo[], {}, ITodoQuery>) {

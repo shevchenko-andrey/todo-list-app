@@ -1,28 +1,66 @@
 import { NotFound } from 'http-errors';
+import { FilterQuery } from 'mongoose';
 import { ITodoQuery } from '../types/todo-params.type';
 import Todo, { ITodo } from '../models/Todo';
 import FilterServise from './filter.service';
 import { numberConverter } from '../utils/helpers/number-converter';
+import { booleansParser } from '../utils/helpers/boolean-parser';
 
 const filterServise = new FilterServise();
 
 export default class TodoService {
-  async findAll(userId = '') {
-    return Todo.find({
-      $or: [{ userId }, { isPublic: true }]
+  async getPaginationInfo(
+    query: ITodoQuery,
+    userId = '',
+    filter: FilterQuery<ITodo> = { title: { $regex: '' } },
+    watchPublic = true
+  ) {
+    const { page = '1', limit = '10' } = query;
+
+    const [pageNumber, limitNumber] = numberConverter(page, limit);
+
+    const skip = (pageNumber - 1) * limitNumber;
+
+    const total = await Todo.find({
+      $and: [filter, { $or: [{ userId }, { watchPublic }] }]
+    }).countDocuments();
+
+    return {
+      skip,
+      limit: limitNumber,
+      totalPage: Math.ceil(total / limitNumber)
+    };
+  }
+
+  async findAll(query: ITodoQuery, userId = '') {
+    const { skip, limit, totalPage } = await this.getPaginationInfo(query, userId);
+
+    const data = await Todo.find({ $and: [{ $or: [{ userId }, { isPublic: true }] }] }, '', {
+      skip,
+      limit
     });
+    return { data, totalPage };
   }
 
   async findWithFilter(query: ITodoQuery, userId = '') {
-    const queryParams = filterServise.getFilterParams(query);
+    const [isPublic] = booleansParser(query.public);
+    const filterParams = filterServise.getFilterParams(query);
+    const { skip, limit, totalPage } = await this.getPaginationInfo(
+      query,
+      userId,
+      filterParams,
+      isPublic
+    );
 
-    const { page = '1', limit = '10' } = query;
-    const [pageNumber, limitNumber] = numberConverter(page, limit);
-    const skip = (pageNumber - 1) * limitNumber;
-    return Todo.find({ $and: [queryParams, { $or: [{ userId }, { isPublic: true }] }] }, '', {
-      skip,
-      limit: limitNumber
-    });
+    const data = await Todo.find(
+      { $and: [filterParams, { $or: [{ userId }, { isPublic: isPublic ?? true }] }] },
+      '',
+      {
+        skip,
+        limit
+      }
+    );
+    return { data, totalPage };
   }
 
   async findById(todoId: string, userId = '') {

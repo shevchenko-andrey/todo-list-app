@@ -17,6 +17,6 @@ export const PaginationComponent = ({
   <Styled.PaginationBar>
     {page !== 1 && <Styled.ArrowLeft size={25} onClick={handlePrevPage} />}
     <Styled.NumberOfPages>Page {page}</Styled.NumberOfPages>
-    {page <= totalPages && <Styled.ArrowRight size={25} onClick={handleNextPage} />}
+    {page < totalPages && <Styled.ArrowRight size={25} onClick={handleNextPage} />}
   </Styled.PaginationBar>
 );
