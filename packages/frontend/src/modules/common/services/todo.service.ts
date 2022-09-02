@@ -14,12 +14,15 @@ const httpService = new HttpService<ITodoResponce>(
 class TodoService<D> {
   constructor(private http: HttpService<D>) {}
 
-  private createQueryParams({ query, isComplited, isPublic }: IFilter) {
-    return `filter/?q=${query}&public=${isPublic}&complited=${isComplited}`;
+  private createQueryParams({ query, isComplited, isPublic, page, limit }: IFilter) {
+    const baseQueryParams = `filter/?&page=${page}&limit=${limit}`;
+    const filterOptions = `q=${query}&public=${isPublic}&complited=${isComplited}`;
+    return baseQueryParams + filterOptions;
   }
 
   async getTodos(params: IFilter, withFilter = false) {
     const queryParams = withFilter ? this.createQueryParams(params) : '';
+
     return this.http.get(queryParams);
   }
 

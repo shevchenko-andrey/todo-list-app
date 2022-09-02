@@ -9,4 +9,6 @@ export interface ITodoQuery {
   q?: string;
   compleated?: IBooleanString;
   public?: IBooleanString;
+  page?: string;
+  limit?: string;
 }

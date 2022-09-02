@@ -2,6 +2,7 @@ import { NotFound } from 'http-errors';
 import { ITodoQuery } from '../types/todo-params.type';
 import Todo, { ITodo } from '../models/Todo';
 import FilterServise from './filter.service';
+import { numberConverter } from '../utils/helpers/number-converter';
 
 const filterServise = new FilterServise();
 
@@ -14,7 +15,14 @@ export default class TodoService {
 
   async findWithFilter(query: ITodoQuery, userId = '') {
     const queryParams = filterServise.getFilterParams(query);
-    return Todo.find({ $and: [queryParams, { $or: [{ userId }, { isPublic: true }] }] });
+
+    const { page = '1', limit = '10' } = query;
+    const [pageNumber, limitNumber] = numberConverter(page, limit);
+    const skip = (pageNumber - 1) * limitNumber;
+    return Todo.find({ $and: [queryParams, { $or: [{ userId }, { isPublic: true }] }] }, '', {
+      skip,
+      limit: limitNumber
+    });
   }
 
   async findById(todoId: string, userId = '') {

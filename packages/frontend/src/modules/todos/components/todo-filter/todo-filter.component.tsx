@@ -1,5 +1,5 @@
-import { Form, Formik } from 'formik';
 import React from 'react';
+import { Form, Formik } from 'formik';
 import { CheckboxComponent } from '../../../common/components/checkbox';
 // import { ContainerComponent } from '../../../common/components/container';
 import { InputComponent } from '../../../common/components/input';

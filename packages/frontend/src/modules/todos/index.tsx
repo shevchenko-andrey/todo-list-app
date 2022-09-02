@@ -11,8 +11,10 @@ import { APP_KEYS } from '../common/consts';
 import { TodoFilterComponent } from './components/todo-filter';
 import { IFilter } from './types/filter.types';
 import { TodoMenuComponent } from './components/todo-menu';
+import { PaginationComponent } from './components/pagination';
 
 const TodosPageContainer = () => {
+  const [page, setPage] = useState(1);
   const [isFilterOut, setIsFilterOut] = useState(false);
   const [isPublic, setIsPublic] = useState(false);
   const [isComplited, setIsComplited] = useState(false);
@@ -24,7 +26,7 @@ const TodosPageContainer = () => {
     refetch
   } = useQuery<{}, {}, ITodoResponce[]>(
     QUERY_KEYS.TODOS,
-    () => todoService.getTodos({ isPublic, isComplited, query }, isFilterOut),
+    () => todoService.getTodos({ isPublic, isComplited, query, limit: 10 }, isFilterOut),
     {
       onError: () => localStorageService.setToken('')
     }
@@ -39,6 +41,14 @@ const TodosPageContainer = () => {
 
   const onHandleFilter = () => setIsFilterOut((prev) => !prev);
 
+  const handlePrevPage = () => {
+    setPage((prev) => prev - 1);
+  };
+
+  const handleNextPage = () => {
+    setPage((prev) => prev + 1);
+  };
+
   return (
     <main>
       <ContainerComponent>
@@ -46,9 +56,16 @@ const TodosPageContainer = () => {
 
         {isFilterOut && <TodoFilterComponent onSubmit={onSubmit} />}
 
-        {isError && <Redirect to={APP_KEYS.ROUTER_KEYS.LOGIN} />}
-
         <TodoListComponent todos={isSuccess ? todos : null} />
+
+        <PaginationComponent
+          page={page}
+          totalPages={9}
+          handleNextPage={handleNextPage}
+          handlePrevPage={handlePrevPage}
+        />
+
+        {isError && <Redirect to={APP_KEYS.ROUTER_KEYS.LOGIN} />}
       </ContainerComponent>
     </main>
   );
